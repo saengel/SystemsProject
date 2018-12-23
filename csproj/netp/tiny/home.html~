@@ -1,0 +1,29 @@
+<html>
+<head><title>Megillot!</title></head>
+<body style="background-color:DodgerBlue;"> 
+
+  <h1> Megillah Madness! </h1>
+  <img src="megillah.jpg" alt="Megillah Graphic" width="300" height="100">
+  <br>
+  Need something to learn? Having some trouble figuring out a seasonally appropriate Jewish text to study? Click on a month below to get the first chapter of the most time-relevant Megillah!
+
+  <br>
+  <br>
+
+  <!-- Each button, when clicked, should make a call to a 
+program in our cgi bin which does the wget call-->
+<button><a href ="http://ada.sterncs.net:6133/cgi-bin/adder?esther"> January</a> </buttton>
+<button><a href ="http://ada.sterncs.net:6133/cgi-bin/adder?esther"> February</a> </button>
+<button><a href ="http://ada.sterncs.net:6133/cgi-bin/adder?shir"> March </a></button>
+<button><a href ="http://ada.sterncs.net:6133/cgi-bin/adder?shir"> April</a> </button>
+<button><a href ="http://ada.sterncs.net:6133/cgi-bin/adder?rut"> May</a></button>
+<button><a href ="http://ada.sterncs.net:6133/cgi-bin/adder?rut"> June</a></button>
+<button><a href ="http://ada.sterncs.net:6133/cgi-bin/adder?aicha"> July</a></button>
+<button><a href ="http://ada.sterncs.net:6133/cgi-bin/adder?aicha"> August</a></button>
+<button><a href ="http://ada.sterncs.net:6133/cgi-bin/adder?kohelet"> September</a></button>
+<button><a href ="http://ada.sterncs.net:6133/cgi-bin/adder?kohelet"> October</a></button>
+<button><a href ="http://ada.sterncs.net:6133/cgi-bin/adder?kohelet"> November</a></button>
+<button><a href ="http://ada.sterncs.net:6133/cgi-bin/adder?esther"> December</a></button>
+
+</body>
+</html>
