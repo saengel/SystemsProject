@@ -1,3 +1,16 @@
+Fall 2018
+Computer Systems Course
+Stern College for Women, Yeshiva University
+
+Project by: Sarah Engel
+Professor: Ari Shamash
+
+Extending capacity of CMU Tiny Server by modifying programs in the cgi-bin to call an API and return information to the user.
+
+See original CMU README for the Tiny Webserver below. 
+------------ 
+
+
 Tiny Web server
 Dave O'Hallaron
 Carnegie Mellon University

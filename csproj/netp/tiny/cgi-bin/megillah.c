@@ -12,9 +12,11 @@
 int main(void) {
     char *buf, *p;
     rio_t rio;
-    char estherBuf[MAXLINE];
-    char arg1[MAXLINE], arg2[MAXLINE], content[MAXLINE];
+    char estherBuf[35000];
+    char arg1[MAXLINE], arg2[MAXLINE], content[MAXLINE*10];
     int n1=0, n2=0;
+
+    // printf("MAXLINE = %d\n", MAXLINE);
 
     /* Extract the two arguments passed in the url */
 
@@ -41,9 +43,9 @@ int main(void) {
     char * megillah;
     megillah = strncat(getenv("QUERY_STRING"), "\0", 1);
     
-    sprintf(content, "Your seasonal megillah is <b> %s </b>", megillah);
-    sprintf(content, "%sThanks for visiting!\r\n", content);
-
+    sprintf(content, "%sYour seasonal megillah is <b> %s </b>\n\r\n", content, megillah);
+    sprintf(content, "%sThanks for visiting!\n\r\n", content);
+    sprintf(content, "%sMAXLINE = %d \r\n", content, MAXLINE);
 
     if (strncmp(megillah, "aicha", 5) == 0){
       // Making a wget call to aicha
@@ -52,7 +54,7 @@ int main(void) {
       // multiple users can call without overwriting the system. 
       system("wget https://www.sefaria.org/api/texts/Lamentations.1 -O aicha.txt ");
      
-      sprintf(content, "File downloaded from API successfully", content);
+      sprintf(content, "%sFile downloaded from API successfully\n\r\n", content);
       // use rio to upload the strstr
       // Parse the result - strstr "text" ingest everything afterwards...
       // display the first perek to the user
@@ -63,13 +65,21 @@ int main(void) {
       // TODO: Will need to generate random text file names so                                             
       // multiple users can call without overwriting the system.                                                         
       system("wget https://www.sefaria.org/api/texts/Esther.1 -O esther.txt ");
-      sprintf(content, "File downloaded from API successfully", content);
+      sprintf(content, "%sFile downloaded from API successfully\n\r\n", content);
 
       // use rio to upload the result into a string
       // using ls -l know that esther.txt is 31127 bytes
 
       int fd;
-      fd = open("~/csproj/netp/tiny/esther.txt", O_CREAT|O_RDONLY, 0);
+      fd = open("/home/sengel/csproj/netp/tiny/esther.txt", O_RDONLY, 0);
+
+      if (fd < 0){
+	sprintf(content, "%s\r\nOpen failing\n\r\n", content);
+
+	// Seeing the error message
+	 char * message = strerror(errno);
+	 sprintf(content, "%s\r\nERROR MESSAGE:\r\n%s", content, message);
+      }
 
       // FIX TO NOT BE HARDCODED
       int size = 31127;
@@ -78,18 +88,18 @@ int main(void) {
       int status;
       status = rio_readn(fd, estherBuf, size);
       
-      sprintf(content, "status = %d", status, content);
+      sprintf(content, "%sstatus = %d", content, status);
       if (status == -1){
-	sprintf(content, "Read Error", content);
+	sprintf(content, "%sRead Error", content);
       }
       else if (status == 0){
-	sprintf(content, "EOF zero returned from read", content);
+	sprintf(content, "%sEOF zero returned from read", content);
       }
       else{
 	// Not working
-	sprintf(content, "Success. %f bytes transferred in read", status, content);
+	sprintf(content, "%sSuccess. %d bytes transferred in read", content, status);
 	// Not working....
-	sprintf(content, "%s", estherBuf, content);
+	sprintf(content, "%s%s", content, estherBuf);
       }
       // Parse the result
       // display the first perek to the user 
