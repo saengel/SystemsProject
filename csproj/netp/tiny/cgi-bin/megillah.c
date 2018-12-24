@@ -4,8 +4,15 @@
 /* $begin adder */
 #include "csapp.h"
 #include "stdlib.h"
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
 int main(void) {
     char *buf, *p;
+    rio_t rio;
+    char estherBuf[MAXLINE];
     char arg1[MAXLINE], arg2[MAXLINE], content[MAXLINE];
     int n1=0, n2=0;
 
@@ -59,6 +66,30 @@ int main(void) {
 
       sprintf(content, "File downloaded from API successfully", content);
       // use rio to upload the result into a string
+      // using ls -l know that esther.txt is 31127 bytes
+      int fd;
+
+      fd = open("~/csproj/netp/tiny/esther.txt", O_RDONLY, 0);
+      int size = 31127;
+      
+      Rio_readinitb(estherBuf, fd);
+
+      // ERROR IS HERE - BAD FILE DESCRIPTOR
+      int status = Rio_readn(fd, estherBuf, size);
+      
+      sprintf(content, "status = %d", status, content);
+      if (status == -1){
+	sprintf(content, "Read Error", content);
+      }
+      else if (status == 0){
+	sprintf(content, "EOF zero returned from read", content);
+      }
+      else{
+	// Not working
+	sprintf(content, "Success. %f bytes transferred in read", status, content);
+	// Not working....
+	//sprintf(content, "%s", estherBuf, content);
+      }
       // Parse the result
       // display the first perek to the user 
     }
