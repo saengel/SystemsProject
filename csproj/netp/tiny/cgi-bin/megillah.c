@@ -63,19 +63,20 @@ int main(void) {
       // TODO: Will need to generate random text file names so                                             
       // multiple users can call without overwriting the system.                                                         
       system("wget https://www.sefaria.org/api/texts/Esther.1 -O esther.txt ");
-
       sprintf(content, "File downloaded from API successfully", content);
+
       // use rio to upload the result into a string
       // using ls -l know that esther.txt is 31127 bytes
-      int fd;
 
-      fd = open("~/csproj/netp/tiny/esther.txt", O_RDONLY, 0);
+      int fd;
+      fd = open("~/csproj/netp/tiny/esther.txt", O_CREAT|O_RDONLY, 0);
+
+      // FIX TO NOT BE HARDCODED
       int size = 31127;
       
-      Rio_readinitb(estherBuf, fd);
-
-      // ERROR IS HERE - BAD FILE DESCRIPTOR
-      int status = Rio_readn(fd, estherBuf, size);
+      //rio_readinitb(estherBuf, fd);
+      int status;
+      status = rio_readn(fd, estherBuf, size);
       
       sprintf(content, "status = %d", status, content);
       if (status == -1){
@@ -88,7 +89,7 @@ int main(void) {
 	// Not working
 	sprintf(content, "Success. %f bytes transferred in read", status, content);
 	// Not working....
-	//sprintf(content, "%s", estherBuf, content);
+	sprintf(content, "%s", estherBuf, content);
       }
       // Parse the result
       // display the first perek to the user 
