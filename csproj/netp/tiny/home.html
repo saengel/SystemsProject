@@ -1,29 +1,61 @@
 <html>
-<head><title>Megillot!</title></head>
+  <head><title>Megillot!</title></head>
+    <!-- CSS Code was helped by the W3schools CSS website               
+    which can be found here: https://www.w3schools.com/css/css3_buttons.asp-->  
+  <style>
+    div.main{
+      text-align:center;
+    color:white;
+    font-family: Helvetica, sans-serif;
+    text-decoration: none;
+    }
+    .button {
+       background-color:lightblue;
+    border-color: white;
+    border-width: thick;
+    color: DodgerBlue;
+       padding: 15px 32px;
+       text-align: center;
+       text-decoration: none;
+       display: inline-block;
+       font-size: 16px;
+       margin: 4px 2px;
+       cursor: pointer;
+    }
+    .button:hover {
+     background-color: white;
+     color: #FFDF80;
+   }
+  </style>
 <body style="background-color:DodgerBlue;"> 
 
-  <h1> Megillah Madness! </h1>
+  <div class = "main">
+  <h1 style=font-size:100px> Megillah Madness! </h1>
   <img src="megillah.jpg" alt="Megillah Graphic" width="300" height="100">
   <br>
-  Need something to learn? Having some trouble figuring out a seasonally appropriate Jewish text to study? Click on a month below to get the first chapter of the most time-relevant Megillah!
-
-  <br>
+  <h3> Need something to learn? <br>Having some trouble figuring out a seasonally appropriate Jewish text to study?<br></h3>
+  <h2>Click on a month below to get the first chapter of the most time-relevant Megillah!</h2>
   <br>
 
   <!-- Each button, when clicked, should make a call to a 
 program in our cgi bin which does the wget call-->
-<button><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?esther"> January</a> </buttton>
-<button><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?esther"> February</a> </button>
-<button><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?shir"> March </a></button>
-<button><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?shir"> April</a> </button>
-<button><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?rut"> May</a></button>
-<button><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?rut"> June</a></button>
-<button><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?aicha"> July</a></button>
-<button><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?aicha"> August</a></button>
-<button><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?kohelet"> September</a></button>
-<button><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?kohelet"> October</a></button>
-<button><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?kohelet"> November</a></button>
-<button><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?esther"> December</a></button>
+<a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?esther"><button class="button"> January </buttton></a>
+<button class="button"><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?esther"> February</a> </button>
+<button class="button"><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?shir"> March </a></button>
+<button class="button"><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?shir"> April</a> </button>
+<button class="button"><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?rut"> May</a></button>
+<button class="button"><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?rut"> June</a></button>
+<br>
+<button class="button"><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?aicha"> July</a></button>
+<button class="button"><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?aicha"> August</a></button>
+<button class="button"><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?kohelet"> September</a></button>
+<button class="button"><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?kohelet"> October</a></button>
+<button class="button"><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?kohelet"> November</a></button>
+<button class="button"><a href ="http://ada.sterncs.net:6133/cgi-bin/megillah?esther"> December</a></button>
 
+<br>
+<p> <i>Powered by the Sefaria <a href="https://github.com/Sefaria/Sefaria-Project/wiki/API-Documentation">API</a>. </i>
+</p>
+</div>
 </body>
 </html>
