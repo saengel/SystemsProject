@@ -18,10 +18,10 @@ int main(void) {
     
     char * megillah;
     megillah = strncat(getenv("QUERY_STRING"), "\0", 1);
-    sprintf(content,"%s<body style=\"background-color:DodgerBlue;\">", content);
+    sprintf(content,"%s  <style>  div.main{ text-align:center; color:white; font-family: Helvetica, sans-serif;  text-decoration: none;}</style><div class = \"main\"><body style=\"background-color:DodgerBlue;\">", content);
     
     if (strncmp(megillah, "aicha", 5) == 0){
-      sprintf(content, "%s<p><i>Our algorithm has determined that appropriate seasonal learning for you is...</i></p><h1> Aicha: Chapter One</h1>", content);
+      sprintf(content, "%s<p><i>Our algorithm has determined that appropriate seasonal learning for you is...</i></p><h1><u>Aicha</u>: Chapter One</h1>", content);
       // Making a wget call to aicha
       // Saving it to aicha.txt.
       // TODO: Will need to generate random text file names so
@@ -73,7 +73,7 @@ us);
       // multiple users can call without overwriting the system.                                                         
       system("wget https://www.sefaria.org/api/texts/Esther.1 -O esther.txt ");
       //sprintf(content, "%sFile downloaded from API successfully<br>\r\n", content);
-      sprintf(content, "%s<p><i>Our algorithm has determined that appropriate sea\sonal learning for you is...</i></p><h1> Esther: Chapter One</h1>", content); 
+      sprintf(content, "%s<p><i>Our algorithm has determined that appropriate sea\sonal learning for you is...</i></p><h1><u>Esther</u>: Chapter One</h1>", content); 
       // use rio to upload the result into a string
       // using ls -l know that esther.txt is 31127 bytes
 
@@ -118,7 +118,7 @@ us);
       // multiple users can call without overwriting the system.  
       system("wget https://www.sefaria.org/api/texts/Ecclesiastes.1 -O kohelet.txt ");
       sprintf(content, "%s<p><i>Our algorithm has determined that appropriate sea\
-sonal learning for you is...</i></p><h1> Kohelet: Chapter One</h1>", content); 
+sonal learning for you is...</i></p><h1><u>Kohelet</u>: Chapter One</h1>", content); 
       //sprintf(content, "%sFile downloaded from API successfully<br>\r\n", content);
       // Make a wget call to kohelet - using system - generate new file name
       // open file then use rio, slide 25 in lesson 17     
@@ -163,7 +163,7 @@ sonal learning for you is...</i></p><h1> Kohelet: Chapter One</h1>", content);
       system("wget https://www.sefaria.org/api/texts/Song_of_Songs.1 -O shir.txt ");
 
       //sprintf(content, "%sFile downloaded from API successfully<br>\r\n", content);
-      sprintf(content, "%s<p><i>Our algorithm has determined that appropriate sea\sonal learning for you is...</i></p><h1> Shir HaShirim: Chapter One</h1>", content); 
+      sprintf(content, "%s<p><i>Our algorithm has determined that appropriate sea\sonal learning for you is...</i></p><h1><u>Shir HaShirim</u>: Chapter One</h1>", content); 
       // use rio to upload the result into a string
       // open file then use rio, slide 25 in lesson 17
       // Parse the result                                                     
@@ -207,7 +207,7 @@ if (fd < 0){
       system("wget https://www.sefaria.org/api/texts/Ruth.1 -O rut.txt ");
 
       //sprintf(content, "%sFile downloaded from API successfully<br>\r\n", content);
-      sprintf(content, "%s<p><i>Our algorithm has determined that appropriate sea\sonal learning for you is...</i></p><h1> Rut: Chapter One</h1>", content); 
+      sprintf(content, "%s<p><i>Our algorithm has determined that appropriate sea\sonal learning for you is...</i></p><h1><u>Rut</u>: Chapter One</h1>", content); 
       // use rio to upload the result into a string
       // Parse the result                                  
       // display the first perek to the user
@@ -242,10 +242,12 @@ if (fd < 0){
       // display the first perek to the user
     }
     else{
-      sprintf(content, "You requested <b> %s </b><br>\r\n", megillah, content);
-      sprintf(content, "ERROR: %s is not a megillah<br>\r\n", megillah, content);
+      sprintf(content, "%sYou requested <b> %s </b><br>\r\n", content, megillah);
+      sprintf(content, "%sERROR: %s is not a megillah<br>\r\n", content, megillah);
     }
-    
+
+    // Closing the div
+    sprintf(content, "%s</div>", content);
   
     /* Generate the HTTP response - which is just a bunch of print statements */
 
