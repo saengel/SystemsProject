@@ -8,6 +8,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <string.h>
+#include <stdio.h>
 
 int main(void) {
     char *buf, *p;
@@ -60,8 +62,27 @@ int main(void) {
         //working                                                            
         //sprintf(content, "%sSuccess. %d bytes transferred in read<br>\r\n", content, stat \
 us);                
-        // Not working....  
-        sprintf(content, "%s%s", content, megillahBuf); 
+        // Prints the API to the screen....  
+        // sprintf(content, "%s%s", content, megillahBuf);
+
+	char firstChar[] = "text\":";
+	char* p;
+
+	// P will be a pointer to the first instance of
+	// firstChar in megillahBuf
+	p = strstr(megillahBuf, firstChar);
+
+	//char * err_message = strerror(errno);
+
+	//sprintf(content, "%s<br>ERROR MESSAGE:<br>\r\n%s", content, err_message);
+
+	if (p){
+	  sprintf(content, "%sString found. First occurrence is at %d\r\n", content, &p);
+	}
+	else{
+	   sprintf(content, "%sString not found.\r\n", content);
+	}
+	
       }
       // Parse the result  
       // display the first perek to the user 
@@ -169,13 +190,13 @@ sonal learning for you is...</i></p><h1><u>Kohelet</u>: Chapter One</h1>", conte
       // Parse the result                                                     
       // display the first perek to the user
       // use rio to upload the result into a string                                                            
-int fd;
-fd = open("/home/sengel/csproj/netp/tiny/shir.txt", O_RDONLY, 0);
-if (fd < 0){
+      int fd;
+      fd = open("/home/sengel/csproj/netp/tiny/shir.txt", O_RDONLY, 0);
+      if (fd < 0){
         sprintf(content, "%s<br>Open failing<br>\r\n", content);                    
 
-        // Seeing the error message                                                        
-        char * message = strerror(errno);
+         // Seeing the error message                                                        
+         char * message = strerror(errno);
          sprintf(content, "%s<br>ERROR MESSAGE:<br>\r\n", content, message);
       }
       
@@ -247,6 +268,8 @@ if (fd < 0){
     }
 
     // Closing the div
+    // body of response                                                                     
+    sprintf(content, "%s", content); // printng the entirety of content to the screen     
     sprintf(content, "%s</div>", content);
   
     /* Generate the HTTP response - which is just a bunch of print statements */
@@ -256,8 +279,7 @@ if (fd < 0){
     printf("Content-length: %d\r\n", (int)strlen(content));
     printf("Content-type: text/html\r\n\r\n");
 
-    // body of response
-    printf("%s", content); // printng the entirety of content to the screen
+    printf("%s", content);
     fflush(stdout);
 
     exit(0);
