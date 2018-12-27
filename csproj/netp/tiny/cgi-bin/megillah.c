@@ -44,24 +44,24 @@ int main(void) {
 
         // Seeing the error message                                                        
         char * message = strerror(errno);
-         sprintf(content, "%s<br>ERROR MESSAGE:<br>\r\n%s", content, message);
+	sprintf(content, "%s<br>ERROR MESSAGE:<br>\r\n%s", content, message);
       }
  
       // FIX TO NOT BE HARDCODED                                
       int size = 30042;   
-                                                         
+      
       //rio_readinitb(estherBuf, fd);                                         
       int status;
       status = rio_readn(fd, megillahBuf, size);   
       if (status == -1){               
-          sprintf(content, "%sRead Error<br>\r\n", content);   
+	sprintf(content, "%sRead Error<br>\r\n", content);   
       }
       else if (status == 0){                            
-         sprintf(content, "%sEOF zero returned from read<br>\r\n", content);
-      } else{
+	sprintf(content, "%sEOF zero returned from read<br>\r\n", content);
+      }
+      else{
         //working                                                            
-        //sprintf(content, "%sSuccess. %d bytes transferred in read<br>\r\n", content, stat \
-us);                
+        //sprintf(content, "%sSuccess. %d bytes transferred in read<br>\r\n", content, status);                
         // Prints the API to the screen....  
         // sprintf(content, "%s%s", content, megillahBuf);
 
@@ -77,10 +77,17 @@ us);
 	//sprintf(content, "%s<br>ERROR MESSAGE:<br>\r\n%s", content, err_message);
 
 	if (p){
-	  sprintf(content, "%sString found. First occurrence is at %d\r\n", content, &p);
+	  // sprintf(content, "%sString found. First occurrence is at %d\r\n", content, &p);
+	  int position = (p-megillahBuf) + 8; // The seven eliminates the 'text:"[' itself
+	  int substringLength = strlen(p)-position;
+
+	  char subbuff[substringLength+1];
+	  memcpy( subbuff, &megillahBuf[position], substringLength);
+	  subbuff[substringLength] = '\0';
+	  sprintf(content, "%s%s", content, subbuff);
 	}
 	else{
-	   sprintf(content, "%sString not found.\r\n", content);
+	  sprintf(content, "%sString not found.\r\n", content);
 	}
 	
       }
@@ -89,26 +96,26 @@ us);
     }
     else if (strncmp(megillah, "esther", 6) == 0) {
       // Making a wget call to esther
-      // Saving it to esther.txt.                                                                                           
-      // TODO: Will need to generate random text file names so                                             
+      // Saving it to esther.txt                            
+      // TODO: Will need to generate random text file names so
       // multiple users can call without overwriting the system.                                                         
       system("wget https://www.sefaria.org/api/texts/Esther.1 -O esther.txt ");
       //sprintf(content, "%sFile downloaded from API successfully<br>\r\n", content);
-      sprintf(content, "%s<p><i>Our algorithm has determined that appropriate sea\sonal learning for you is...</i></p><h1><u>Esther</u>: Chapter One</h1>", content); 
+      sprintf(content, "%s<p><i>Our algorithm has determined that appropriate seasonal learning for you is...</i></p><h1><u>Esther</u>: Chapter One</h1>", content); 
       // use rio to upload the result into a string
       // using ls -l know that esther.txt is 31127 bytes
 
       int fd;
       fd = open("/home/sengel/csproj/netp/tiny/esther.txt", O_RDONLY, 0);
-
+      
       if (fd < 0){
 	sprintf(content, "%s<br>Open failing<br>\r\n", content);
-
+	
 	// Seeing the error message
-	 char * message = strerror(errno);
-	 sprintf(content, "%s<br>ERROR MESSAGE:<br>%s\r\n", content, message);
+	char * message = strerror(errno);
+	sprintf(content, "%s<br>ERROR MESSAGE:<br>%s\r\n", content, message);
       }
-
+      
       // FIX TO NOT BE HARDCODED
       int size = 31127;
       
@@ -116,7 +123,7 @@ us);
       int status;
       status = rio_readn(fd, megillahBuf, size);
       
-      sprintf(content, "%sstatus = %d\r\n", content, status);
+      //sprintf(content, "%sstatus = %d\r\n", content, status);
       if (status == -1){
 	sprintf(content, "%sRead Error\r\n", content);
       }
@@ -127,10 +134,27 @@ us);
 	// Not working
 	//sprintf(content, "%sSuccess. %d bytes transferred in read<br>\r\n", content, status);
 	// Not working....
-	sprintf(content, "%s\r\n%s", content, megillahBuf);
+	//sprintf(content, "%s\r\n%s", content, megillahBuf);
+
+	char firstChar[] = "text\":";
+	char * p;
+	
+	p = strstr(megillahBuf, firstChar);
+	
+	if (p){
+	  int position = (p-megillahBuf)+8; // Plus eight to get rid of the 'text:"[' itself
+	  int substringLength = strlen(p)-position;
+	  
+	  char subbuff[substringLength+1];
+	  memcpy( subbuff, &megillahBuf[position], substringLength);
+	  subbuff[substringLength] = '\0';
+	  sprintf(content, "%s%s", content, subbuff);
+	}
+	
+	else {
+	  sprintf(content, "%sString not found.\r\n", content);
+	}
       }
-      // Parse the result
-      // display the first perek to the user 
     }
     else if (strncmp(megillah, "kohelet", 7) == 0) {
       // Making a wget call to kohelet        
@@ -146,7 +170,7 @@ sonal learning for you is...</i></p><h1><u>Kohelet</u>: Chapter One</h1>", conte
       // use rio to upload the result into a string
       // Parse the result                                                   
       // display the first perek to the user
-
+      
       // use rio to upload the result into a string                                     // using ls -l know that esther.txt is 19253 bytes
       int fd;
       fd = open("/home/sengel/csproj/netp/tiny/kohelet.txt", O_RDONLY, 0);
@@ -154,7 +178,7 @@ sonal learning for you is...</i></p><h1><u>Kohelet</u>: Chapter One</h1>", conte
         sprintf(content, "%s<br>Open failing<br>\r\n", content);   
         // Seeing the error message                       
         char * message = strerror(errno);
-         sprintf(content, "%s<br>ERROR MESSAGE:<br>%s\r\n", content, message);
+	sprintf(content, "%s<br>ERROR MESSAGE:<br>%s\r\n", content, message);
       }
       
       // FIX TO NOT BE HARDCODED                    
@@ -163,15 +187,35 @@ sonal learning for you is...</i></p><h1><u>Kohelet</u>: Chapter One</h1>", conte
       int status;
       status = rio_readn(fd, megillahBuf, size);   
       if (status == -1){                                      
-          sprintf(content, "%sRead Error", content);                      
+	sprintf(content, "%sRead Error", content);                      
       }
       else if (status == 0){                                                 
-         sprintf(content, "%sEOF zero returned from read", content);
+	sprintf(content, "%sEOF zero returned from read", content);
       } else{
         //working                                                            
-        //sprintf(content, "%sSuccess. %d bytes transferred in read\r\n", content, status);                                                                            
-        // Not working....                                      
-        sprintf(content, "%s\r\n%s", content, megillahBuf);                   
+                // Not working                                                                                                                       
+        //sprintf(content, "%sSuccess. %d bytes transferred in read<br>\r\n", content, status);                                              
+        // Not working....                                                                                                                   
+        //sprintf(content, "%s\r\n%s", content, megillahBuf);                                                                                
+
+        char firstChar[] = "text\":";
+        char * p;
+
+        p = strstr(megillahBuf, firstChar);
+
+        if (p){
+          int position = (p-megillahBuf) + 8; // Plus eight to get rid of the 'text:"[' itself                                                   
+          int substringLength = strlen(p)-position;
+
+          char subbuff[substringLength+1];
+          memcpy( subbuff, &megillahBuf[position], substringLength);
+          subbuff[substringLength] = '\0';
+          sprintf(content, "%s%s", content, subbuff);
+        }
+
+        else {
+          sprintf(content, "%sString not found.\r\n", content);
+        }
       }
       // Parse the result                                                        
       // display the first perek to the user  
@@ -182,7 +226,7 @@ sonal learning for you is...</i></p><h1><u>Kohelet</u>: Chapter One</h1>", conte
       // TODO: Will need to generate random text file names so                  
       // multiple users can call without overwriting the system.                      
       system("wget https://www.sefaria.org/api/texts/Song_of_Songs.1 -O shir.txt ");
-
+      
       //sprintf(content, "%sFile downloaded from API successfully<br>\r\n", content);
       sprintf(content, "%s<p><i>Our algorithm has determined that appropriate sea\sonal learning for you is...</i></p><h1><u>Shir HaShirim</u>: Chapter One</h1>", content); 
       // use rio to upload the result into a string
@@ -194,28 +238,48 @@ sonal learning for you is...</i></p><h1><u>Kohelet</u>: Chapter One</h1>", conte
       fd = open("/home/sengel/csproj/netp/tiny/shir.txt", O_RDONLY, 0);
       if (fd < 0){
         sprintf(content, "%s<br>Open failing<br>\r\n", content);                    
-
-         // Seeing the error message                                                        
-         char * message = strerror(errno);
-         sprintf(content, "%s<br>ERROR MESSAGE:<br>\r\n", content, message);
+	
+	// Seeing the error message                                                        
+	char * message = strerror(errno);
+	sprintf(content, "%s<br>ERROR MESSAGE:<br>\r\n", content, message);
       }
       
       // FIX TO NOT BE HARDCODED                                                  
       int size = 17103;   
-                                                         
+      
       //rio_readinitb(megillahBuf, fd);                                                   
       int status;
       status = rio_readn(fd, megillahBuf, size);   
       if (status == -1){                                                                  
-          sprintf(content, "%sRead Error", content);                                
+	sprintf(content, "%sRead Error", content);                                
       }
       else if (status == 0){                                
-         sprintf(content, "%sEOF zero returned from read", content);
+	sprintf(content, "%sEOF zero returned from read", content);
       } else{
         //working                                                            
-        //sprintf(content, "%sSuccess. %d bytes transferred in read<br>\r\n", content, stat us);                                                                
-        // Not working....                         
-        sprintf(content, "%s%s", content, megillahBuf);          
+                // Not working                                                                                                                       
+        //sprintf(content, "%sSuccess. %d bytes transferred in read<br>\r\n", content, status);                                              
+        // Not working....                                                                                                                   
+        //sprintf(content, "%s\r\n%s", content, megillahBuf);                                                                                
+
+        char firstChar[] = "text\":";
+        char * p;
+
+        p = strstr(megillahBuf, firstChar);
+
+        if (p){
+          int position = (p-megillahBuf) + 8; // Plus eight to get rid of the 'text:"[' itself                                                   
+          int substringLength = strlen(p)-position;
+
+          char subbuff[substringLength+1];
+          memcpy( subbuff, &megillahBuf[position], substringLength);
+          subbuff[substringLength] = '\0';
+          sprintf(content, "%s%s", content, subbuff);
+        }
+
+        else {
+          sprintf(content, "%sString not found.\r\n", content);
+        }          
       }
       // Parse the result                 
       // display the first perek to the user
@@ -226,7 +290,7 @@ sonal learning for you is...</i></p><h1><u>Kohelet</u>: Chapter One</h1>", conte
       // TODO: Will need to generate random text file names so       
       // multiple users can call without overwriting the system.             
       system("wget https://www.sefaria.org/api/texts/Ruth.1 -O rut.txt ");
-
+      
       //sprintf(content, "%sFile downloaded from API successfully<br>\r\n", content);
       sprintf(content, "%s<p><i>Our algorithm has determined that appropriate sea\sonal learning for you is...</i></p><h1><u>Rut</u>: Chapter One</h1>", content); 
       // use rio to upload the result into a string
@@ -239,25 +303,45 @@ sonal learning for you is...</i></p><h1><u>Kohelet</u>: Chapter One</h1>", conte
         sprintf(content, "%s<br>Open failing<br>\r\n", content);              
         // Seeing the error message                                       
         char * message = strerror(errno);
-         sprintf(content, "%s<br>ERROR MESSAGE:<br>%s\r\n", content, message);
+	sprintf(content, "%s<br>ERROR MESSAGE:<br>%s\r\n", content, message);
       }
       
       // FIX TO NOT BE HARDCODED                                 
       int size = 26144;   
-                                                         
+      
       //rio_readinitb(megillahBuf, fd);                      
       int status;
       status = rio_readn(fd, megillahBuf, size);   
       if (status == -1){                                          
-          sprintf(content, "%sRead Error", content);        
+	sprintf(content, "%sRead Error", content);        
       }
       else if (status == 0){             
-         sprintf(content, "%sEOF zero returned from read", content);
+	sprintf(content, "%sEOF zero returned from read", content);
       } else{
         //working                                                            
-	// sprintf(content, "%sSuccess. %d bytes transferred in read<br>\r\n", content, status);                                                                      
-        // Not working....                                 
-        sprintf(content, "%s%s", content, megillahBuf); 
+	        // Not working                                                                                                                       
+        //sprintf(content, "%sSuccess. %d bytes transferred in read<br>\r\n", content, status);                                              
+        // Not working....                                                                                                                   
+        //sprintf(content, "%s\r\n%s", content, megillahBuf);                                                                                
+
+        char firstChar[] = "text\":";
+        char * p;
+
+        p = strstr(megillahBuf, firstChar);
+
+        if (p){
+          int position = (p-megillahBuf); // Plus eight to get rid of the 'text:"[' itself                                                   
+          int substringLength = strlen(p)-position;
+
+          char subbuff[substringLength+1];
+          memcpy( subbuff, &megillahBuf[position], substringLength);
+          subbuff[substringLength] = '\0';
+          sprintf(content, "%s%s", content, subbuff);
+        }
+
+        else {
+          sprintf(content, "%sString not found.\r\n", content);
+        }
       }
       // Parse the result               
       // display the first perek to the user
@@ -266,22 +350,22 @@ sonal learning for you is...</i></p><h1><u>Kohelet</u>: Chapter One</h1>", conte
       sprintf(content, "%sYou requested <b> %s </b><br>\r\n", content, megillah);
       sprintf(content, "%sERROR: %s is not a megillah<br>\r\n", content, megillah);
     }
-
+    
     // Closing the div
     // body of response                                                                     
     sprintf(content, "%s", content); // printng the entirety of content to the screen     
     sprintf(content, "%s</div>", content);
-  
+    
     /* Generate the HTTP response - which is just a bunch of print statements */
-
+    
     // header of response - Going to be entirely different for our project. 
     printf("Connection: close\r\n");
     printf("Content-length: %d\r\n", (int)strlen(content));
     printf("Content-type: text/html\r\n\r\n");
-
+    
     printf("%s", content);
     fflush(stdout);
-
+    
     exit(0);
 }
 /* $end adder */

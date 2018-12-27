@@ -1,0 +1,2 @@
+gcc -O2 -Wall -I .. -o megillah megillah.c csapp.o -lpthread
+Makefile:18: recipe for target 'megillah' failed
