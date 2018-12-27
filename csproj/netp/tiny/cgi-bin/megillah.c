@@ -12,11 +12,10 @@
 #include <stdio.h>
 
 int main(void) {
-    char *buf, *p;
-    rio_t rio;
+  // char *buf, *p;
+  //  rio_t rio;
     char megillahBuf[35000];
-    char arg1[MAXLINE], arg2[MAXLINE], content[MAXLINE*10];
-    int n1=0, n2=0;
+    char content[MAXLINE*10];
     
     char * megillah;
     megillah = strncat(getenv("QUERY_STRING"), "\0", 1);
@@ -28,7 +27,7 @@ int main(void) {
       // Saving it to aicha.txt.
       // TODO: Will need to generate random text file names so
       // multiple users can call without overwriting the system. 
-      system("wget https://www.sefaria.org/api/texts/Lamentations.1 -O aicha.txt ");
+      int result = system("wget https://www.sefaria.org/api/texts/Lamentations.1 -O aicha.txt ");
      
       // sprintf(content, "%sFile downloaded from API successfully<br>\r\n", content);
       // use rio to upload the strstr
@@ -84,6 +83,17 @@ int main(void) {
 	  char subbuff[substringLength+1];
 	  memcpy( subbuff, &megillahBuf[position], substringLength);
 	  subbuff[substringLength] = '\0';
+
+	  char * endChar = "\"],";
+	  // Now parse out the end part
+	  char * firstHalf = subbuff;
+	  char * d;
+	  d = strstr(firstHalf, endChar);
+
+	  int endPos = (d-firstHalf);
+
+	  subbuff[endPos+1] = '\0';
+	  
 	  sprintf(content, "%s%s", content, subbuff);
 	}
 	else{
@@ -99,7 +109,7 @@ int main(void) {
       // Saving it to esther.txt                            
       // TODO: Will need to generate random text file names so
       // multiple users can call without overwriting the system.                                                         
-      system("wget https://www.sefaria.org/api/texts/Esther.1 -O esther.txt ");
+      int result = system("wget https://www.sefaria.org/api/texts/Esther.1 -O esther.txt ");
       //sprintf(content, "%sFile downloaded from API successfully<br>\r\n", content);
       sprintf(content, "%s<p><i>Our algorithm has determined that appropriate seasonal learning for you is...</i></p><h1><u>Esther</u>: Chapter One</h1>", content); 
       // use rio to upload the result into a string
@@ -135,7 +145,7 @@ int main(void) {
 	//sprintf(content, "%sSuccess. %d bytes transferred in read<br>\r\n", content, status);
 	// Not working....
 	//sprintf(content, "%s\r\n%s", content, megillahBuf);
-
+	
 	char firstChar[] = "text\":";
 	char * p;
 	
@@ -148,6 +158,13 @@ int main(void) {
 	  char subbuff[substringLength+1];
 	  memcpy( subbuff, &megillahBuf[position], substringLength);
 	  subbuff[substringLength] = '\0';
+	  char * firstHalf = subbuff;
+	  char * endChar = "\"],";
+          // Now parse out the end part
+	  char * d;
+          d = strstr(firstHalf, endChar);                                                    
+          int endPos = (d-firstHalf);
+          subbuff[endPos+1] = '\0';
 	  sprintf(content, "%s%s", content, subbuff);
 	}
 	
@@ -161,9 +178,8 @@ int main(void) {
       // Saving it to kohelet.txt.                                        
       // TODO: Will need to generate random text file names so    
       // multiple users can call without overwriting the system.  
-      system("wget https://www.sefaria.org/api/texts/Ecclesiastes.1 -O kohelet.txt ");
-      sprintf(content, "%s<p><i>Our algorithm has determined that appropriate sea\
-sonal learning for you is...</i></p><h1><u>Kohelet</u>: Chapter One</h1>", content); 
+      int result = system("wget https://www.sefaria.org/api/texts/Ecclesiastes.1 -O kohelet.txt ");
+      sprintf(content, "%s<p><i>Our algorithm has determined that appropriate seasonal learning for you is...</i></p><h1><u>Kohelet</u>: Chapter One</h1>", content); 
       //sprintf(content, "%sFile downloaded from API successfully<br>\r\n", content);
       // Make a wget call to kohelet - using system - generate new file name
       // open file then use rio, slide 25 in lesson 17     
@@ -193,26 +209,33 @@ sonal learning for you is...</i></p><h1><u>Kohelet</u>: Chapter One</h1>", conte
 	sprintf(content, "%sEOF zero returned from read", content);
       } else{
         //working                                                            
-                // Not working                                                                                                                       
+	// Not working                                                                                                                       
         //sprintf(content, "%sSuccess. %d bytes transferred in read<br>\r\n", content, status);                                              
         // Not working....                                                                                                                   
         //sprintf(content, "%s\r\n%s", content, megillahBuf);                                                                                
-
+	
         char firstChar[] = "text\":";
         char * p;
-
+	
         p = strstr(megillahBuf, firstChar);
-
+	
         if (p){
           int position = (p-megillahBuf) + 8; // Plus eight to get rid of the 'text:"[' itself                                                   
           int substringLength = strlen(p)-position;
-
+	  
           char subbuff[substringLength+1];
           memcpy( subbuff, &megillahBuf[position], substringLength);
           subbuff[substringLength] = '\0';
-          sprintf(content, "%s%s", content, subbuff);
+	  char * endChar = "\"],";
+          // Now parse out the end part
+	  char * firstHalf = subbuff;
+	  char * d;
+          d = strstr(firstHalf, endChar);                                                     
+          int endPos = (d-firstHalf);
+          subbuff[endPos+1] = '\0';
+	  sprintf(content, "%s%s", content, subbuff);
         }
-
+	
         else {
           sprintf(content, "%sString not found.\r\n", content);
         }
@@ -225,10 +248,10 @@ sonal learning for you is...</i></p><h1><u>Kohelet</u>: Chapter One</h1>", conte
       // Saving it to shir.txt.                        
       // TODO: Will need to generate random text file names so                  
       // multiple users can call without overwriting the system.                      
-      system("wget https://www.sefaria.org/api/texts/Song_of_Songs.1 -O shir.txt ");
+      int result = system("wget https://www.sefaria.org/api/texts/Song_of_Songs.1 -O shir.txt ");
       
       //sprintf(content, "%sFile downloaded from API successfully<br>\r\n", content);
-      sprintf(content, "%s<p><i>Our algorithm has determined that appropriate sea\sonal learning for you is...</i></p><h1><u>Shir HaShirim</u>: Chapter One</h1>", content); 
+      sprintf(content, "%s<p><i>Our algorithm has determined that appropriate seasonal learning for you is...</i></p><h1><u>Shir HaShirim</u>: Chapter One</h1>", content); 
       // use rio to upload the result into a string
       // open file then use rio, slide 25 in lesson 17
       // Parse the result                                                     
@@ -241,7 +264,7 @@ sonal learning for you is...</i></p><h1><u>Kohelet</u>: Chapter One</h1>", conte
 	
 	// Seeing the error message                                                        
 	char * message = strerror(errno);
-	sprintf(content, "%s<br>ERROR MESSAGE:<br>\r\n", content, message);
+	sprintf(content, "%s<br>ERROR MESSAGE:%s<br>\r\n", content, message);
       }
       
       // FIX TO NOT BE HARDCODED                                                  
@@ -274,7 +297,14 @@ sonal learning for you is...</i></p><h1><u>Kohelet</u>: Chapter One</h1>", conte
           char subbuff[substringLength+1];
           memcpy( subbuff, &megillahBuf[position], substringLength);
           subbuff[substringLength] = '\0';
-          sprintf(content, "%s%s", content, subbuff);
+	  char * firstHalf = subbuff;
+          char * endChar = "\"],";
+          // Now parse out the end part                                                                                                      
+          char * d;
+          d = strstr(firstHalf, endChar);
+          int endPos = (d-firstHalf);
+          subbuff[endPos+1] = '\0';
+	  sprintf(content, "%s%s", content, subbuff);
         }
 
         else {
@@ -289,10 +319,10 @@ sonal learning for you is...</i></p><h1><u>Kohelet</u>: Chapter One</h1>", conte
       // Saving it to rut.txt.                       
       // TODO: Will need to generate random text file names so       
       // multiple users can call without overwriting the system.             
-      system("wget https://www.sefaria.org/api/texts/Ruth.1 -O rut.txt ");
+      int result = system("wget https://www.sefaria.org/api/texts/Ruth.1 -O rut.txt ");
       
       //sprintf(content, "%sFile downloaded from API successfully<br>\r\n", content);
-      sprintf(content, "%s<p><i>Our algorithm has determined that appropriate sea\sonal learning for you is...</i></p><h1><u>Rut</u>: Chapter One</h1>", content); 
+      sprintf(content, "%s<p><i>Our algorithm has determined that appropriate seasonal learning for you is...</i></p><h1><u>Rut</u>: Chapter One</h1>", content); 
       // use rio to upload the result into a string
       // Parse the result                                  
       // display the first perek to the user
@@ -336,7 +366,14 @@ sonal learning for you is...</i></p><h1><u>Kohelet</u>: Chapter One</h1>", conte
           char subbuff[substringLength+1];
           memcpy( subbuff, &megillahBuf[position], substringLength);
           subbuff[substringLength] = '\0';
-          sprintf(content, "%s%s", content, subbuff);
+	  char * firstHalf = subbuff;
+          char * endChar = "\"],";
+          // Now parse out the end part                                                                                                      
+          char * d;
+          d = strstr(firstHalf, endChar);
+          int endPos = (d-firstHalf);
+          subbuff[endPos+1] = '\0';
+	  sprintf(content, "%s%s", content, subbuff);
         }
 
         else {
