@@ -14,13 +14,16 @@ LIB = -lpthread
 
 all: megillah subtract
 
-megillah: megillah.c csapp.o
-	$(CC) $(CFLAGS) -o megillah megillah.c csapp.o $(LIB)
+megillah: megillah.c csapp.o jsmn/jsmn.o
+	$(CC) $(CFLAGS) -o megillah megillah.c csapp.o $(LIB) jsmn/jsmn.o
 
 # Wants me to add a rule to make csapp.c but not sure how
 # Orginally had this below...
 csapp.o: csapp.c 
-	$(CC) $(CFLAGS) -c csapp.c 
+	$(CC) $(CFLAGS) -c csapp.c
+
+jsmn/jsmn.o: jsmn/jsmn.c
+	$(CC) $(CFLAGS) -c jsmn/jsmn.c
 
 subtract: subtract.c
 	$(CC) $(CFLAGS) -o subtract subtract.c
