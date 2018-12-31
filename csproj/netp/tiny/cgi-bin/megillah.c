@@ -412,7 +412,7 @@ int main(void) {
     
     /* Generate the HTTP response - which is just a bunch of print statements */
     
-    // header of response - Going to be entirely different for our project. 
+    // header of response. 
     printf("Connection: close\r\n");
     printf("Content-length: %d\r\n", (int)strlen(content));
     printf("Content-type: text/html\r\n\r\n");
@@ -422,4 +422,4 @@ int main(void) {
     
     exit(0);
 }
-/* $end adder */
+/* $end megillah */
