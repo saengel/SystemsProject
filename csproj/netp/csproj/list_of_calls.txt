@@ -1,0 +1,9 @@
+wget https://www.sefaria.org/api/texts/Lamentations.1 -O aicha.txt
+
+wget https://www.sefaria.org/api/texts/Song_of_Songs.1 -O shir_hashirim.txt
+
+wget https://www.sefaria.org/api/texts/Ecclesiastes.1 -O kohelet.txt
+
+wget https://www.sefaria.org/api/texts/Ruth.1 -O rut.txt
+
+wget https://www.sefaria.org/api/texts/Esther.1 -O esther.txt
