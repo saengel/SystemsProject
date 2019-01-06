@@ -10,8 +10,7 @@ With thanks to the existing CMU code, the open-source JSMN JSON parser module, a
 <b><h3>To run:</h3>
 <br>
 cd ~/csproj/netp/tiny
-<br>./tiny 6133 (port must be 6133 unless you modify the links in home.html for each of the megillah buttons)
-</b>
+<br>./tiny 6133 </b><i>(port must be 6133 unless you modify the links in home.html for each of the megillah buttons)</i>
 <br>
 <br>
 Access on: http://ada.sterncs.net:6133/home.html
