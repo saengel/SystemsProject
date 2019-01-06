@@ -6,3 +6,11 @@ Main files are the netp/tiny/cgi-bin/megillah.c which is the cgi executable prog
 
 With thanks to the existing CMU code, the open-source JSMN JSON parser module, and W3 Schools HTML. 
 
+To run:
+
+cd ~/csproj/netp/tiny
+<br>./tiny 6133 (port must be 6133 unless you modify the links in home.html for each of the megillah buttons)
+
+Access on: http://ada.sterncs.net:6133/home.html
+<br>To access a specific megillah: http://ada.sterncs.net:6133/cgi-bin/megillah?[[validMegillah]]
+
